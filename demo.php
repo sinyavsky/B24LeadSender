@@ -10,7 +10,7 @@ require("B24LeadSender.php");
 // как создать веб-хук - я расписал в этой статье: https://alfavitka.ru/sozdaem-lid-bitrix24-cherez-api/
 
 // В этом примере адрес Б24 и строка веб-хука конечно-же фейковые
-$leadSender = new \B24LeadSender\LeadSender("https://v1rt.bitrix24.ru","hehehe1demo2hook3",1, 1);
+$leadSender = new \B24LeadSender\LeadSender("https://demo.bitrix24.ru","hehehe1demo2hook3",1, 1);
 
 // Заполняем основные данные: имя контакта, телефон(ы), емейл(ы), заголовок лида и комментарий к нему
 
