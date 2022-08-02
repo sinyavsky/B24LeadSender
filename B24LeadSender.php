@@ -34,12 +34,12 @@ class LeadSender
 		$this->queryData["fields"]["TITLE"] = $title;
 	}
 
-	public function AddPhone($tel)
+	public function AddPhone($tel, $type = "MOBILE")
 	{
 		if (!is_array($this->queryData["fields"]["PHONE"])) {
 			$this->queryData["fields"]["PHONE"] = array();
 		}
-		$this->queryData["fields"]["PHONE"][] = array("VALUE" => $tel, "VALUE_TYPE" => "WORK");
+		$this->queryData["fields"]["PHONE"][] = array("VALUE" => $tel, "VALUE_TYPE" => $type);
 	}
 
 	public function AddEmail($email)
