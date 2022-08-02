@@ -1,15 +1,15 @@
 <?php
 
-namespace B24LeadSender;
+namespace Sinyavsky;
 
 
-class LeadSender
+class B24LeadSender
 {
 	private $queryUrl;
-	private $queryData = array(
-		"fields" => array(),
-		"params" => array()
-	);
+	private $queryData = [
+		"fields" => [],
+		"params" => []
+	];
 
 	private $errorText;
 
@@ -37,17 +37,17 @@ class LeadSender
 	public function AddPhone($tel, $type = "MOBILE")
 	{
 		if (!is_array($this->queryData["fields"]["PHONE"])) {
-			$this->queryData["fields"]["PHONE"] = array();
+			$this->queryData["fields"]["PHONE"] = [];
 		}
-		$this->queryData["fields"]["PHONE"][] = array("VALUE" => $tel, "VALUE_TYPE" => $type);
+		$this->queryData["fields"]["PHONE"][] = ["VALUE" => $tel, "VALUE_TYPE" => $type];
 	}
 
 	public function AddEmail($email, $type = "WORK")
 	{
 		if (!is_array($this->queryData["fields"]["EMAIL"])) {
-			$this->queryData["fields"]["EMAIL"] = array();
+			$this->queryData["fields"]["EMAIL"] = [];
 		}
-		$this->queryData["fields"]["EMAIL"][] = array("VALUE" => $email, "VALUE_TYPE" => $type);
+		$this->queryData["fields"]["EMAIL"][] = ["VALUE" => $email, "VALUE_TYPE" => $type];
 	}
 
 	public function SetComments($msg)
@@ -85,6 +85,7 @@ class LeadSender
 		$this->queryData["fields"][$name] = $value;
 	}
 
+	// список всех полей: https://dev.1c-bitrix.ru/rest_help/crm/leads/crm_lead_fields.php
 	public function SetOther($name, $value)
 	{
 		$this->queryData["fields"][$name] = $value;
@@ -104,14 +105,14 @@ class LeadSender
 	public function Send()
 	{
 		$curl = curl_init();
-		curl_setopt_array($curl, array(
+		curl_setopt_array($curl, [
 			CURLOPT_SSL_VERIFYPEER => 0,
 			CURLOPT_POST => 1,
 			CURLOPT_HEADER => 0,
 			CURLOPT_RETURNTRANSFER => 1,
 			CURLOPT_URL => $this->queryUrl,
 			CURLOPT_POSTFIELDS => http_build_query($this->queryData),
-		));
+		]);
 
 		$result = curl_exec($curl);
 		curl_close($curl);
