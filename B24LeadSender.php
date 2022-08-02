@@ -60,6 +60,31 @@ class LeadSender
 		$this->queryData["fields"][$name] = $value;
 	}
 
+	public function SetUtmSource($value)
+	{
+		$this->queryData["fields"]["UTM_SOURCE"] = $value;
+	}
+
+	public function SetUtmMedium($value)
+	{
+		$this->queryData["fields"]["UTM_MEDIUM"] = $value;
+	}
+
+	public function SetUtmCampaign($value)
+	{
+		$this->queryData["fields"]["UTM_CAMPAIGN"] = $value;
+	}
+
+	public function SetUtmContent($value)
+	{
+		$this->queryData["fields"]["UTM_CONTENT"] = $value;
+	}
+
+	public function SetUtmTerm($value)
+	{
+		$this->queryData["fields"]["UTM_TERM"] = $value;
+	}
+
 	// из документации https://dev.1c-bitrix.ru/rest_help/crm/cdeals/crm_deal_add.php
 	// "REGISTER_SONET_EVENT - произвести регистрацию события добавления лида в живой ленте. 
 	// Дополнительно будет отправлено уведомление ответственному за лид"
