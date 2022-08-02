@@ -91,12 +91,6 @@ class B24LeadSender
 		$this->queryData["fields"][$name] = $value;
 	}
 
-	// из документации https://dev.1c-bitrix.ru/rest_help/crm/cdeals/crm_deal_add.php
-	// "REGISTER_SONET_EVENT - произвести регистрацию события добавления лида в живой ленте. 
-	// Дополнительно будет отправлено уведомление ответственному за лид"
-	// но на практике я не вижу разницы: сообщение о лиде приходит в любом случае
-	// где происходит регистрация в живой ленте - я тоже не нашел
-	// но всё-равно пусть этот метод будет
 	public function DontRegisterSonetEvent()
 	{
 		$this->queryData["params"]["REGISTER_SONET_EVENT"] = "N";
