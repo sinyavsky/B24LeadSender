@@ -17,8 +17,9 @@ class LeadSender
 	{
 		$this->queryUrl = $url;
 		$this->queryData["fields"]["ASSIGNED_BY_ID"] = $userId;
-		$this->queryData["params"]["REGISTER_SONET_EVENT"] = "Y"; // отправить уведомление ответственному за лид
+		$this->queryData["params"]["REGISTER_SONET_EVENT"] = "Y"; // значение по-умолчанию, отключить можно через DontRegisterSonetEvent
 	}
+
 	public function SetName($name)
 	{
 		$this->queryData["fields"]["NAME"] = $name;
@@ -27,6 +28,7 @@ class LeadSender
 			$this->queryData["fields"]["TITLE"] = "Новый лид: $name";
 		}
 	}
+
 	public function SetTitle($title)
 	{
 		$this->queryData["fields"]["TITLE"] = $title;
@@ -39,6 +41,7 @@ class LeadSender
 		}
 		$this->queryData["fields"]["PHONE"][] = array("VALUE" => $tel, "VALUE_TYPE" => "WORK");
 	}
+
 	public function AddEmail($email)
 	{
 		if (!is_array($this->queryData["fields"]["EMAIL"])) {
@@ -46,10 +49,23 @@ class LeadSender
 		}
 		$this->queryData["fields"]["EMAIL"][] = array("VALUE" => $email, "VALUE_TYPE" => "WORK");
 	}
+
 	public function SetComments($msg)
 	{
 		$this->queryData["fields"]["COMMENTS"] = $msg;
 	}
+
+	// из документации https://dev.1c-bitrix.ru/rest_help/crm/cdeals/crm_deal_add.php
+	// "REGISTER_SONET_EVENT - произвести регистрацию события добавления лида в живой ленте. 
+	// Дополнительно будет отправлено уведомление ответственному за лид"
+	// но на практике я не вижу разницы: сообщение о лиде приходит в любом случае
+	// где происходит регистрация в живой ленте - я тоже не нашел
+	// но всё-равно пусть этот метод будет
+	public function DontRegisterSonetEvent()
+	{
+		$this->queryData["params"]["REGISTER_SONET_EVENT"] = "N";
+	}
+
 	public function Send()
 	{
 		$curl = curl_init();
@@ -78,8 +94,14 @@ class LeadSender
 		}
 		return true;
 	}
+
 	public function GetError()
 	{
 		return $this->errorText;
+	}
+
+	public function GetQueryData()
+	{
+		return $this->queryData;
 	}
 }
