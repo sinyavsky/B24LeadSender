@@ -55,6 +55,11 @@ class LeadSender
 		$this->queryData["fields"]["COMMENTS"] = $msg;
 	}
 
+	public function SetUserField($name, $value)
+	{
+		$this->queryData["fields"][$name] = $value;
+	}
+
 	// из документации https://dev.1c-bitrix.ru/rest_help/crm/cdeals/crm_deal_add.php
 	// "REGISTER_SONET_EVENT - произвести регистрацию события добавления лида в живой ленте. 
 	// Дополнительно будет отправлено уведомление ответственному за лид"
