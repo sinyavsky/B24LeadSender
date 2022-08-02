@@ -55,11 +55,6 @@ class LeadSender
 		$this->queryData["fields"]["COMMENTS"] = $msg;
 	}
 
-	public function SetUserField($name, $value)
-	{
-		$this->queryData["fields"][$name] = $value;
-	}
-
 	public function SetUtmSource($value)
 	{
 		$this->queryData["fields"]["UTM_SOURCE"] = $value;
@@ -83,6 +78,16 @@ class LeadSender
 	public function SetUtmTerm($value)
 	{
 		$this->queryData["fields"]["UTM_TERM"] = $value;
+	}
+
+	public function SetUserField($name, $value)
+	{
+		$this->queryData["fields"][$name] = $value;
+	}
+
+	public function SetOther($name, $value)
+	{
+		$this->queryData["fields"][$name] = $value;
 	}
 
 	// из документации https://dev.1c-bitrix.ru/rest_help/crm/cdeals/crm_deal_add.php
