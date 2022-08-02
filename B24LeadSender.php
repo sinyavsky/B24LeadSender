@@ -1,14 +1,10 @@
 <?php
+
 namespace B24LeadSender;
 
 
 class LeadSender
 {
-	private $b24Url;	
-	private $b24WebHook;
-	private $b24UserId;
-	private $b24AdminId;
-
 	private $queryUrl;
 	private $queryData = array(
 		"fields" => array(),
@@ -17,22 +13,17 @@ class LeadSender
 
 	private $errorText;
 
-	public function __construct($url, $webHook, $userId, $adminId)
+	public function __construct($url, $userId)
 	{
-		$this->b24Url = $url;		
-		$this->b24WebHook = $webHook;
-		$this->b24UserId = $userId;
-		$this->b24AdminId = $adminId;
-		$this->queryUrl = $this->b24Url."/rest/".$this->b24AdminId."/".$this->b24WebHook."/crm.lead.add.json";
-		$this->queryData["fields"]["ASSIGNED_BY_ID"] = $this->b24UserId;
+		$this->queryUrl = $url;
+		$this->queryData["fields"]["ASSIGNED_BY_ID"] = $userId;
 		$this->queryData["params"]["REGISTER_SONET_EVENT"] = "Y"; // отправить уведомление ответственному за лид
 	}
 	public function SetName($name)
 	{
 		$this->queryData["fields"]["NAME"] = $name;
 
-		if(!strlen($this->queryData["fields"]["TITLE"]))
-		{
+		if (!strlen($this->queryData["fields"]["TITLE"])) {
 			$this->queryData["fields"]["TITLE"] = "Новый лид: $name";
 		}
 	}
@@ -43,19 +34,17 @@ class LeadSender
 
 	public function AddPhone($tel)
 	{
-		if(!is_array($this->queryData["fields"]["PHONE"]))
-		{
+		if (!is_array($this->queryData["fields"]["PHONE"])) {
 			$this->queryData["fields"]["PHONE"] = array();
 		}
-		$this->queryData["fields"]["PHONE"][] = array("VALUE"=>$tel,"VALUE_TYPE"=>"WORK");
+		$this->queryData["fields"]["PHONE"][] = array("VALUE" => $tel, "VALUE_TYPE" => "WORK");
 	}
 	public function AddEmail($email)
 	{
-		if(!is_array($this->queryData["fields"]["EMAIL"]))
-		{
+		if (!is_array($this->queryData["fields"]["EMAIL"])) {
 			$this->queryData["fields"]["EMAIL"] = array();
 		}
-		$this->queryData["fields"]["EMAIL"][] = array("VALUE"=>$email,"VALUE_TYPE"=>"WORK");
+		$this->queryData["fields"]["EMAIL"][] = array("VALUE" => $email, "VALUE_TYPE" => "WORK");
 	}
 	public function SetComments($msg)
 	{
@@ -76,17 +65,15 @@ class LeadSender
 		$result = curl_exec($curl);
 		curl_close($curl);
 
-		if($result === false)
-		{
+		if ($result === false) {
 			$this->errorText = "curl_exec has returned false";
 			return false;
 		}
 
-		$result = json_decode($result,true); 
+		$result = json_decode($result, true);
 
-		if(array_key_exists('error', $result))
-		{      
-			$this->errorText = "B24 has returned error: ".$result['error_description'];
+		if (array_key_exists('error', $result)) {
+			$this->errorText = "B24 has returned error: " . $result['error_description'];
 			return false;
 		}
 		return true;
